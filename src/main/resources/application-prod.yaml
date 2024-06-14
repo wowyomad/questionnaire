@@ -1,0 +1,16 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 8837
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
