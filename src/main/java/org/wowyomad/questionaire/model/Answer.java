@@ -33,6 +33,8 @@ public class Answer {
     @Column(name = "text")
     private String text;
 
+    //...Все остальное
+
     @ManyToMany
     @JoinTable(
             name = "answer_selected_option_assoc",

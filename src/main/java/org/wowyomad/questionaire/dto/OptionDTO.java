@@ -11,7 +11,6 @@ public class OptionDTO {
 
     private Integer id;
 
-    @NotNull
     private Integer index;
 
     @NotNull

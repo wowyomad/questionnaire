@@ -25,6 +25,7 @@ public class AnswerMapper {
         return new AnswerDto(
                 answer.getId(),
                 answer.getQuestion().getId(),
+                answer.getQuestion().getType().name(),
                 answer.getText(),
                 selectedOptionsDTO
 

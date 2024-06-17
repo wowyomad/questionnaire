@@ -28,4 +28,8 @@ public class Submission {
     @JsonManagedReference
     private List<Answer> answers;
 
+    @PrePersist
+    public void prePersist() {
+        submissionTime = LocalDateTime.now();
+    }
 }

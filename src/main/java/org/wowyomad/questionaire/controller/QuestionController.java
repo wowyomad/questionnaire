@@ -3,6 +3,7 @@ package org.wowyomad.questionaire.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.wowyomad.questionaire.dto.QuestionDto;
+import org.wowyomad.questionaire.dto.QuestionListDto;
 import org.wowyomad.questionaire.service.QuestionService;
 
 import java.util.List;
@@ -68,4 +69,16 @@ public class QuestionController {
         return true;
     }
 
+    @PostMapping("/multiple")
+    public boolean createMultipleSubmissions(@RequestBody QuestionListDto questionListDto) {
+        try {
+            questionListDto.getQuestions().forEach(questionService::saveQuestion);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+
 }
+
