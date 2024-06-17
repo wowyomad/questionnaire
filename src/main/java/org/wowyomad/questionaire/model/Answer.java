@@ -1,20 +1,24 @@
 package org.wowyomad.questionaire.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "answer")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "submission_id", nullable = false)
@@ -25,10 +29,15 @@ public class Answer {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    private String response; // text
+    @Nullable
+    @Column(name = "text")
+    private String text;
 
-    @ElementCollection
-    @CollectionTable(name = "answer_selected_option", joinColumns = @JoinColumn(name = "answer_id"))
-    @Column(name = "option_id")
-    private List<Long> selectedOptions = new ArrayList<>(); // option IDs
+    @ManyToMany
+    @JoinTable(
+            name = "answer_selected_option_assoc",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id")
+    )
+    private List<Option> selectedOptions = new ArrayList<>();
 }

@@ -1,70 +1,71 @@
 package org.wowyomad.questionaire.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.wowyomad.questionaire.dto.QuestionCreateDTO;
-import org.wowyomad.questionaire.dto.QuestionResponseDTO;
-import org.wowyomad.questionaire.map.QuestionMapper;
-import org.wowyomad.questionaire.model.Question;
+import org.wowyomad.questionaire.dto.QuestionDto;
 import org.wowyomad.questionaire.service.QuestionService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/questions")
+@AllArgsConstructor
 public class QuestionController {
 
-    @Autowired
-    private QuestionService questionService;
+    private final QuestionService questionService;
 
-    @Autowired
-    private QuestionMapper questionMapper;
-
-    @GetMapping
-    public List<QuestionResponseDTO> getAllQuestions() {
-        return questionService.getAllQuestions().stream()
-                .map(questionMapper::toResponseDTO)
-                .collect(Collectors.toList());
+    @GetMapping("")
+    List<QuestionDto> getAllQuestions() {
+        return questionService.getAllQuestions();
     }
 
-    @GetMapping("/{id}")
-    public QuestionResponseDTO getQuestionById(@PathVariable Long id) {
-        Question question = questionService.getQuestionById(id);
-        return question != null ? questionMapper.toResponseDTO(question) : null;
-    }
 
-    @PostMapping
-    public ResponseEntity<String> createQuestion(@RequestBody QuestionCreateDTO questionCreateDTO) {
+    @PostMapping("")
+    boolean createQuestion(@RequestBody QuestionDto questionDto) {
         try {
-            Question question = questionMapper.fromCreateDTO(questionCreateDTO);
-            questionService.saveQuestion(question);
-            return ResponseEntity.ok("Successfully created question");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            questionService.saveQuestion(questionDto);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return false;
         }
+        return true;
+
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateQuestion(@PathVariable Long id, @RequestBody QuestionCreateDTO questionCreateDTO) {
+    boolean updateQuestion(@PathVariable("id") int id, @RequestBody QuestionDto questionDto) {
         try {
-            Question question = questionMapper.fromCreateDTO(questionCreateDTO);
-            question.setId(id);
-            questionService.saveQuestion(question);
-            return ResponseEntity.ok("Successfully updated question");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            questionService.updateQuestion(id, questionDto);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return false;
         }
+        return true;
+    }
+
+    @GetMapping("/{id}")
+    QuestionDto getQuestion(@PathVariable("id") int id) {
+        QuestionDto questionDto;
+        try {
+            questionDto = questionService.getQuestion(id);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return null;
+        }
+        return questionDto;
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
+    boolean deleteQuestion(@PathVariable int id) {
         try {
             questionService.deleteQuestion(id);
-            return ResponseEntity.ok("Successfully deleted question");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return false;
         }
+        return true;
     }
+
 }

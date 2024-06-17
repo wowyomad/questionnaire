@@ -12,5 +12,5 @@ spring:
     password: 8837
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
