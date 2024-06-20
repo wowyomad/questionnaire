@@ -1,10 +1,4 @@
 spring:
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML
-    encoding: UTF-8
-    cache: false
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -12,6 +6,12 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      platform: h2
+      mode: always
+      schema-locations: classpath:schema-dev.sql
+      data-locations: classpath:data-dev.sql

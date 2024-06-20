@@ -1,6 +1,7 @@
 package org.wowyomad.questionaire.controller;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.wowyomad.questionaire.dto.SubmissionDto;
@@ -33,7 +34,7 @@ public class SubmissionController {
     }
 
     @PostMapping("")
-    boolean createSubmission(@RequestBody SubmissionDto submissionDto) {
+    boolean createSubmission(@RequestBody @Valid SubmissionDto submissionDto) {
         try {
             submissionService.saveSubmission(submissionDto);
         } catch (IllegalArgumentException e) {

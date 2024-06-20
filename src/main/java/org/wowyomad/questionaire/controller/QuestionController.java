@@ -30,8 +30,6 @@ public class QuestionController {
             return false;
         }
         return true;
-
-
     }
 
     @PutMapping("/{id}")

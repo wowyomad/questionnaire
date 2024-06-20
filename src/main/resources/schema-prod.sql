@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS answer_selected_option_assoc;
-DROP TABLE IF EXISTS answer;
-DROP TABLE IF EXISTS submission;
-DROP TABLE IF EXISTS option;
-DROP TABLE IF EXISTS question;
+-- DROP TABLE IF EXISTS answer_selected_option_assoc;
+-- DROP TABLE IF EXISTS answer;
+-- DROP TABLE IF EXISTS submission;
+-- DROP TABLE IF EXISTS option;
+-- DROP TABLE IF EXISTS question;
 
 CREATE TABLE question
 (
