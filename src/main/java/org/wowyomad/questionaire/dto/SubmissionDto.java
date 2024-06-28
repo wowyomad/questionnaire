@@ -11,6 +11,8 @@ import java.util.List;
 public class SubmissionDto {
     private Integer id;
 
+    private String submissionTime;
+
     @NotNull
     private List<AnswerDto> answers;
 }

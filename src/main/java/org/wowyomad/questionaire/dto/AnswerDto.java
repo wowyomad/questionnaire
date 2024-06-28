@@ -4,7 +4,6 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.wowyomad.questionaire.utils.enums.QuestionType;
 
 import java.util.List;
 

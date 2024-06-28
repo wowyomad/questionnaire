@@ -1,8 +1,8 @@
--- DROP TABLE IF EXISTS answer_selected_option_assoc;
--- DROP TABLE IF EXISTS answer;
--- DROP TABLE IF EXISTS submission;
--- DROP TABLE IF EXISTS option;
--- DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS answer_selected_option_assoc;
+DROP TABLE IF EXISTS answer;
+DROP TABLE IF EXISTS submission;
+DROP TABLE IF EXISTS option;
+DROP TABLE IF EXISTS question;
 
 CREATE TABLE question
 (
@@ -20,7 +20,7 @@ CREATE TABLE option
     index       INT,
     text        TEXT NOT NULL,
     question_id INT,
-    CONSTRAINT fk_question FOREIGN KEY (question_id) REFERENCES question (id)
+    CONSTRAINT fk_question FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
 );
 
 CREATE TABLE submission
