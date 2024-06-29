@@ -7,7 +7,8 @@ import org.wowyomad.questionaire.model.Question;
 class TextQuestionValidator extends AbstractQuestionValidator {
     @Override
     public boolean validate(QuestionDto question) {
-        return question.getOptions() == null || question.getOptions().isEmpty();
+        return question.getText() != null && !question.getText().isBlank() &&
+                (question.getOptions() == null || question.getOptions().isEmpty());
     }
 
     @Override

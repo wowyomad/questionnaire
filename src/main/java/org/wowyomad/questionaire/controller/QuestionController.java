@@ -1,6 +1,9 @@
 package org.wowyomad.questionaire.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wowyomad.questionaire.dto.QuestionDto;
 import org.wowyomad.questionaire.dto.QuestionListDto;
@@ -16,67 +19,37 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("")
-    List<QuestionDto> getAllQuestions() {
+    public List<QuestionDto> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
-
     @PostMapping("")
-    boolean createQuestion(@RequestBody QuestionDto questionDto) {
-        try {
-            questionService.saveQuestion(questionDto);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return false;
-        }
-        return true;
+    public ResponseEntity<QuestionDto> createQuestion(@RequestBody @Valid QuestionDto questionDto) {
+        QuestionDto createQuestion = questionService.saveQuestion(questionDto);
+        return new ResponseEntity<>(createQuestion, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    boolean updateQuestion(@PathVariable("id") int id, @RequestBody QuestionDto questionDto) {
-        try {
-            questionService.updateQuestion(id, questionDto);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return false;
-        }
-        return true;
+    public ResponseEntity<QuestionDto> updateQuestion(@PathVariable("id") int id, @RequestBody @Valid QuestionDto questionDto) {
+        QuestionDto updatedQuestion = questionService.updateQuestion(id, questionDto);
+        return new ResponseEntity<>(updatedQuestion, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    QuestionDto getQuestion(@PathVariable("id") int id) {
-        QuestionDto questionDto;
-        try {
-            questionDto = questionService.getQuestion(id);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return null;
-        }
-        return questionDto;
-
+    public QuestionDto getQuestion(@PathVariable("id") int id) {
+        return questionService.getQuestion(id);
     }
 
     @DeleteMapping("/{id}")
-    boolean deleteQuestion(@PathVariable int id) {
-        try {
-            questionService.deleteQuestion(id);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return false;
-        }
-        return true;
+    public ResponseEntity<Void> deleteQuestion(@PathVariable int id) {
+        questionService.deleteQuestion(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/multiple")
-    public boolean createMultipleSubmissions(@RequestBody QuestionListDto questionListDto) {
-        try {
-            questionListDto.getQuestions().forEach(questionService::saveQuestion);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return false;
-        }
-        return true;
+    public ResponseEntity<String> createMultipleQuestions(@RequestBody @Valid QuestionListDto questionListDto) {
+        questionService.saveAllQuestions(questionListDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
 }
 

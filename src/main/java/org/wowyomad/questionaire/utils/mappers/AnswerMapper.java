@@ -8,6 +8,7 @@ import org.wowyomad.questionaire.model.Answer;
 import org.wowyomad.questionaire.model.Option;
 import org.wowyomad.questionaire.model.Question;
 import org.wowyomad.questionaire.model.Submission;
+import org.wowyomad.questionaire.utils.exceptions.AnswerInvalidException;
 
 import java.util.List;
 
@@ -28,12 +29,13 @@ public class AnswerMapper {
                 answer.getQuestion().getType().name(),
                 answer.getText(),
                 selectedOptionsDTO
-
         );
     }
 
-    public Answer mapToEntity(AnswerDto answerDto, Question question, Submission submission) {
-        assert question.getId().equals(answerDto.getQuestionId()) : "Question ID mismatch";
+    public Answer mapToEntity(AnswerDto answerDto, Question question, Submission submission) throws AnswerInvalidException {
+        if (!question.getId().equals(answerDto.getQuestionId())) {
+            throw new AnswerInvalidException("Question ID mismatch");
+        }
 
         List<Option> selectedOptions;
         if (answerDto.getSelectedOptions() != null) {

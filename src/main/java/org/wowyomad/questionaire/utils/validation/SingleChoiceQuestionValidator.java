@@ -12,7 +12,8 @@ class SingleChoiceQuestionValidator extends AbstractQuestionValidator {
 
     @Override
     public boolean validate(QuestionDto question) {
-        return question.getOptions() != null && !question.getOptions().isEmpty();
+        return question.getOptions() != null && !question.getOptions().isEmpty()
+                && question.getOptions().size() > 1;
     }
 
     @Override
