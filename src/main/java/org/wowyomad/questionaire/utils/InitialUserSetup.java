@@ -1,20 +1,21 @@
 package org.wowyomad.questionaire.utils;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.wowyomad.questionaire.dto.RegisterRequest;
 import org.wowyomad.questionaire.service.AuthenticationService;
 
 @Component
+@Profile("dev")
 @RequiredArgsConstructor
 public class InitialUserSetup {
 
 
     private final AuthenticationService authenticationService;
+
 
     private final String firstName = "John";
     private final String lastName = "Doe";
