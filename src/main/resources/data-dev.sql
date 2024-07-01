@@ -8,7 +8,7 @@ INSERT INTO question (label, text, type, is_required, is_active) VALUES
                                                                      ('Select your birth date.', 'Pick a date.', 'DATE', TRUE, TRUE);
 
 -- Insert Options for Questions Requiring Them
-INSERT INTO "option" ("index", text, question_id) VALUES
+INSERT INTO option (index, text, question_id) VALUES
                                                       (1, 'Male', 3),
                                                       (2, 'Female', 3),
                                                       (1, 'Reading', 4),

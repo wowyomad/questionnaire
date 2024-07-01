@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS answer;
 DROP TABLE IF EXISTS submission;
 DROP TABLE IF EXISTS option;
 DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS "user";
 
 CREATE TABLE question
 (
@@ -51,5 +52,6 @@ CREATE TABLE "user" (
     password TEXT NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    phone TEXT NOT NULL
+    phone TEXT NOT NULL,
+    role TEXT NOT NULL
 );

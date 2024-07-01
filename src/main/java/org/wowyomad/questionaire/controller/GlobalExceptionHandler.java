@@ -2,6 +2,7 @@ package org.wowyomad.questionaire.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,7 +34,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             QuestionNotFoundException.class,
             SubmissionNotFoundException.class,
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            UsernameNotFoundException.class
     })
     public ResponseEntity<String> handleNotFoundException(RuntimeException e) {
         logger.error("Not found exception occurred: {}", e.getMessage(), e);
@@ -44,6 +46,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserCredentialsException(UserCredentialsException e) {
         logger.error("User credentials exception occurred: {}", e.getMessage(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserLoginAlreadyInUseException.class)
+    public ResponseEntity<String> handleUserLoginAlreadyInUseException(UserLoginAlreadyInUseException e) {
+        logger.error("User login conflict exception occured: {}", e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({

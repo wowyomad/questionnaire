@@ -1,5 +1,6 @@
 package org.wowyomad.questionaire.dto;
 
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterRequest {
+public class UserDto {
+
+    @Nullable
+    private Integer id;
+
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
-    private String password;
     private String phone;
+
 }
