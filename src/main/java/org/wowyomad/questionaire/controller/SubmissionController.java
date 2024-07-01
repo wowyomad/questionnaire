@@ -13,12 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/submissions")
 @AllArgsConstructor
+@CrossOrigin
+
 public class SubmissionController {
 
     private final SubmissionService submissionService;
 
     @GetMapping("")
     public List<SubmissionDto> getAllSubmissions() {
+
         return submissionService.getAllSubmissions();
     }
 
@@ -29,7 +32,6 @@ public class SubmissionController {
 
     @PostMapping("")
     public ResponseEntity<SubmissionDto> createSubmission(@RequestBody @Valid SubmissionDto submissionDto) {
-         submissionService.saveSubmission(submissionDto);
          return new ResponseEntity<>(submissionService.saveSubmission(submissionDto), HttpStatus.CREATED);
     }
 

@@ -1,7 +1,7 @@
 package org.wowyomad.questionaire.utils.validation;
 
 import org.wowyomad.questionaire.dto.AnswerDto;
-import org.wowyomad.questionaire.dto.OptionDTO;
+import org.wowyomad.questionaire.dto.OptionDto;
 import org.wowyomad.questionaire.dto.QuestionDto;
 import org.wowyomad.questionaire.model.Option;
 import org.wowyomad.questionaire.model.Question;
@@ -25,7 +25,7 @@ class MultiChoiceQuestionValidator extends AbstractQuestionValidator {
                 .collect(Collectors.toSet());
 
         Set<Integer> selectedOptionIds = answer.getSelectedOptions().stream()
-                .map(OptionDTO::getId)
+                .map(OptionDto::getId)
                 .collect(Collectors.toSet());
 
         return optionIds.containsAll(selectedOptionIds);

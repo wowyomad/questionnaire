@@ -24,5 +24,5 @@ public class AnswerDto {
     private String text;
 
     @Nullable
-    private List<OptionDTO> selectedOptions;
+    private List<OptionDto> selectedOptions;
 }

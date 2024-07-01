@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 @AllArgsConstructor
@@ -41,6 +40,6 @@ public class QuestionDto {
 
     @Valid
     @Nullable
-    private List<OptionDTO> options;
+    private List<OptionDto> options;
 
 }

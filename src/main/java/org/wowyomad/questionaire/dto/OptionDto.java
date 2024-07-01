@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class OptionDTO {
+public class OptionDto {
 
     private Integer id;
 

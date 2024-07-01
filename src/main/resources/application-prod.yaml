@@ -6,7 +6,7 @@ spring:
     password: 8837
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
   sql:
     init:

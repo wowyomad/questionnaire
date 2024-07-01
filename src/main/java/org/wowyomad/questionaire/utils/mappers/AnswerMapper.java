@@ -3,7 +3,7 @@ package org.wowyomad.questionaire.utils.mappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.wowyomad.questionaire.dto.AnswerDto;
-import org.wowyomad.questionaire.dto.OptionDTO;
+import org.wowyomad.questionaire.dto.OptionDto;
 import org.wowyomad.questionaire.model.Answer;
 import org.wowyomad.questionaire.model.Option;
 import org.wowyomad.questionaire.model.Question;
@@ -18,11 +18,13 @@ public class AnswerMapper {
     private final OptionMapper optionMapper;
 
     public AnswerDto mapToDto(Answer answer) {
-        List<Option> selectedOptions = answer.getSelectedOptions();
-        List<OptionDTO> selectedOptionsDTO = answer.getSelectedOptions().stream()
-                .map(optionMapper::mapToDto)
-                .toList();
+        List<OptionDto> selectedOptionsDTO = null;
+        if(answer.getSelectedOptions() != null) {
+            selectedOptionsDTO = answer.getSelectedOptions().stream()
+                    .map(optionMapper::mapToDto)
+                    .toList();
 
+        }
         return new AnswerDto(
                 answer.getId(),
                 answer.getQuestion().getId(),
