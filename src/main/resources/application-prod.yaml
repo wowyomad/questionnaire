@@ -7,10 +7,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
+    show-sql: false
   sql:
     init:
       platform: postgres
       mode: always
-      data-locations: classpath:data-prod.sql
       schema-locations: classpath:schema-prod.sql

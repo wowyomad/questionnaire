@@ -14,7 +14,6 @@ import org.wowyomad.questionaire.service.AuthenticationService;
 import org.wowyomad.questionaire.service.JwtService;
 import org.wowyomad.questionaire.utils.enums.Role;
 import org.wowyomad.questionaire.utils.exceptions.UserLoginAlreadyInUseException;
-import org.wowyomad.questionaire.utils.mappers.UserMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -36,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken, userMapper.mapToDto(user));
+        return new AuthenticationResponse(jwtToken,user.getId());
     }
 @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -53,6 +51,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
         user = userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken, userMapper.mapToDto(user));
+        return new AuthenticationResponse(jwtToken, user.getId());
     }
 }
