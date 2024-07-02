@@ -5,9 +5,9 @@ INSERT INTO question (id, label, text, type, is_required, is_active) VALUES
                                                                          (3, 'Choose your gender.', 'Select one of the options.', 'RADIO_BUTTON', TRUE, TRUE),
                                                                          (4, 'Select your hobbies.', 'You can choose multiple options.', 'CHECKBOX', TRUE, TRUE),
                                                                          (5, 'Choose your country.', 'Select from the list.', 'COMBOBOX', TRUE, TRUE),
-                                                                         (6, 'Select your birth date.', 'Pick a date.', 'DATE', TRUE, TRUE),
+                                                                         (6, 'Select your birth date.', 'Pick a date.', 'DATE', FALSE, TRUE),
                                                                          (7, 'What is your favorite color?', 'Select one of the options.', 'RADIO_BUTTON', FALSE, TRUE),
-                                                                         (8, 'Select your preferred programming languages.', 'Choose as many as you like.', 'CHECKBOX', TRUE, FALSE),
+                                                                         (8, 'Select your preferred programming languages.', 'Choose as many as you like.', 'CHECKBOX', FALSE, FALSE),
                                                                          (9, 'Do you agree with the terms?', 'Check if you agree.', 'CHECKBOX', FALSE, TRUE);
 
 -- Insert Options for Questions Requiring Them
