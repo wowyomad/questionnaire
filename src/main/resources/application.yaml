@@ -1,3 +1,16 @@
 spring:
+  config:
+    import: classpath:application-secret.properties
   profiles:
     active: dev
+  mail:
+    host: ${settings.mail.host}
+    port: ${settings.mail.port}
+    username: ${settings.mail.username}
+    password: ${settings.mail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
