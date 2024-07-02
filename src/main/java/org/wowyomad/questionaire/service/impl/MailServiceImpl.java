@@ -3,6 +3,7 @@ package org.wowyomad.questionaire.service.impl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +12,7 @@ import org.wowyomad.questionaire.service.MailService;
 import org.wowyomad.questionaire.utils.exceptions.MessageWasNotSentException;
 
 @Service
+@Profile("prod")
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
