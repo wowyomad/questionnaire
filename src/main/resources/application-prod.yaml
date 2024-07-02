@@ -8,6 +8,11 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+  mail:
+    host: ${settings.mail.host}
+    port: ${settings.mail.port}
+    username: ${settings.mail.username}
+    password: ${settings.mail.password}
   sql:
     init:
       platform: postgres
