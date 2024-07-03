@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/users")
 @CrossOrigin
 @RequiredArgsConstructor
-public class UserController {
+public class    UserController {
 
     private final UserService userService;
     @GetMapping("/{id}")
@@ -30,9 +30,9 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<AuthenticationResponse> updateProfile(@PathVariable("id") Integer id,@Valid @RequestBody UserDto updatedUser) {
-        return new ResponseEntity<>(userService.updateUser(id, updatedUser), HttpStatus.OK);
+    @PatchMapping("/{id}")
+    public ResponseEntity<AuthenticationResponse> updateProfile(@PathVariable("id") Integer id,@Valid @RequestBody UserDto patchUser) {
+        return new ResponseEntity<>(userService.patchUser(id, patchUser), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/reset-password")

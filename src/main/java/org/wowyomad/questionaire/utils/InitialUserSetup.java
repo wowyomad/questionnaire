@@ -16,7 +16,6 @@ public class InitialUserSetup {
 
     private final AuthenticationService authenticationService;
 
-
     private final String firstName = "John";
     private final String lastName = "Doe";
     private final String email = "email@example.com";

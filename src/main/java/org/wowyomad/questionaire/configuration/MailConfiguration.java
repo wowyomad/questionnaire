@@ -12,7 +12,7 @@ import java.util.Properties;
 
 @Configuration
 @Profile("prod")
-@PropertySource(value = "classpath:application-secret.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:application-secret.properties")
 public class MailConfiguration {
 
     private final Environment env;

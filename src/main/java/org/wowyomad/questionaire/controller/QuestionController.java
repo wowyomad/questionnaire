@@ -21,8 +21,18 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("")
-    public List<QuestionDto> getAllQuestions() {
-        return questionService.getAllQuestions();
+    public List<QuestionDto> getAllQuestions(
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit) {
+        if (offset == null || limit == null) {
+            return questionService.getAllQuestions();
+        }
+        return questionService.getAllQuestions(offset, limit);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getQuestionsCount() {
+        return new ResponseEntity<>(questionService.countQuestions(), HttpStatus.OK) ;
     }
 
     @PostMapping("")

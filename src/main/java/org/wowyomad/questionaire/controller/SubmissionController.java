@@ -20,9 +20,21 @@ public class SubmissionController {
     private final SubmissionService submissionService;
 
     @GetMapping("")
-    public List<SubmissionDto> getAllSubmissions() {
+    public List<SubmissionDto> getAllSubmissions(
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit
+    ) {
+        if(offset == null || limit == null) {
+            return submissionService.getAllSubmissions();
+        } else {
+            return submissionService.getAllSubmissions(offset, limit);
+        }
+    }
 
-        return submissionService.getAllSubmissions();
+    @GetMapping("/count")
+    public Long getSubmissionsCount() {
+        System.out.println("count method called");
+        return submissionService.getCount();
     }
 
     @GetMapping("/{id}")

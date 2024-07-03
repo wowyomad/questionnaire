@@ -13,6 +13,8 @@ public interface UserService {
 
     AuthenticationResponse updateUser(Integer id, UserDto updatedUser);
 
+    AuthenticationResponse patchUser(Integer id, UserDto patchUser);
+
     UserDto updatePassword(Integer id, UserPasswordResetDto password);
 
     List<UserDto> getAllUsers();

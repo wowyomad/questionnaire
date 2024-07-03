@@ -38,9 +38,10 @@ public class SecurityConfiguration {
                         authorizeRequests
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/users/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/questions").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/submissions").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/submissions/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "submissions").permitAll()
+                                .requestMatchers("/ws/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

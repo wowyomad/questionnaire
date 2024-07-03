@@ -6,6 +6,8 @@ import org.wowyomad.questionaire.dto.QuestionListDto;
 import java.util.List;
 
 public interface QuestionService {
+    Long countQuestions();
+
     List<QuestionDto> getAllQuestions();
     QuestionDto saveQuestion(QuestionDto questionDto) throws IllegalArgumentException;
     QuestionDto updateQuestion(int id, QuestionDto questionDto) throws IllegalArgumentException;
@@ -13,4 +15,6 @@ public interface QuestionService {
     QuestionDto getQuestion(int id);
 
     void saveAllQuestions(QuestionListDto questionListDto);
+
+    List<QuestionDto> getAllQuestions(Integer offset, Integer limit);
 }

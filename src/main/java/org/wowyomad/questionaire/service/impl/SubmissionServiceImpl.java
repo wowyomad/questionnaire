@@ -1,6 +1,9 @@
 package org.wowyomad.questionaire.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.wowyomad.questionaire.dto.SubmissionDto;
 import org.wowyomad.questionaire.model.Question;
@@ -8,6 +11,8 @@ import org.wowyomad.questionaire.model.Submission;
 import org.wowyomad.questionaire.repository.QuestionRepository;
 import org.wowyomad.questionaire.repository.SubmissionRepository;
 import org.wowyomad.questionaire.service.SubmissionService;
+import org.wowyomad.questionaire.utils.events.QuestionsUpdatedEvent;
+import org.wowyomad.questionaire.utils.events.SubmissionsUpdatedEvent;
 import org.wowyomad.questionaire.utils.exceptions.SubmissionInvalidException;
 import org.wowyomad.questionaire.utils.exceptions.SubmissionNotFoundException;
 import org.wowyomad.questionaire.utils.mappers.SubmissionMapper;
@@ -25,12 +30,27 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionMapper submissionMapper;
     private final QuestionRepository questionRepository;
     private final SubmissionValidator submissionValidator;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public List<SubmissionDto> getAllSubmissions() {
         return submissionRepository.findAll().stream()
                 .map(submissionMapper::mapToDto)
                 .toList();
+    }
+
+    @Override
+    public List<SubmissionDto> getAllSubmissions(Integer offset, Integer limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return submissionRepository.findAll(pageable).stream()
+                .map(submissionMapper::mapToDto)
+                .toList();
+
+    }
+
+    @Override
+    public Long getCount() {
+        return submissionRepository.count();
     }
 
     @Override
@@ -55,6 +75,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         Submission submission = submissionMapper.mapToEntity(submissionDto, questionMap);
         submission = submissionRepository.save(submission);
+
+        eventPublisher.publishEvent(new QuestionsUpdatedEvent(this));
+
         return submissionMapper.mapToDto(submission);
 
     }
@@ -62,5 +85,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     public void deleteSubmission(int id) throws SubmissionNotFoundException {
         submissionRepository.deleteById(id);
+        eventPublisher.publishEvent(new SubmissionsUpdatedEvent(this));
     }
+
 }

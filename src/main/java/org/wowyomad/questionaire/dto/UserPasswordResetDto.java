@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserPasswordResetDto {
+
+    @NotNull
+    private String oldPassword;
+
     @NotNull
     private String newPassword;
 }

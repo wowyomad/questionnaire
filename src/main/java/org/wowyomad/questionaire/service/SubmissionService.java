@@ -9,4 +9,8 @@ public interface SubmissionService {
     SubmissionDto getSubmission(int id) throws IllegalArgumentException;
     SubmissionDto saveSubmission(SubmissionDto submissionDto) throws IllegalArgumentException;
     void deleteSubmission(int id) throws IllegalArgumentException;
+
+    List<SubmissionDto> getAllSubmissions(Integer offset, Integer limit);
+
+    Long getCount();
 }
