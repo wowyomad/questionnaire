@@ -5,18 +5,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.wowyomad.questionaire.dto.AuthenticationResponse;
 import org.wowyomad.questionaire.dto.UserDto;
-import org.wowyomad.questionaire.dto.UserPasswordResetDto;
+import org.wowyomad.questionaire.dto.UserPasswordChangeDto;
 import org.wowyomad.questionaire.model.User;
 import org.wowyomad.questionaire.repository.UserRepository;
 import org.wowyomad.questionaire.service.JwtService;
+import org.wowyomad.questionaire.service.MailService;
 import org.wowyomad.questionaire.service.UserService;
-import org.wowyomad.questionaire.utils.exceptions.InternalException;
 import org.wowyomad.questionaire.utils.exceptions.UserNotFoundException;
 import org.wowyomad.questionaire.utils.exceptions.UserWrongPasswordException;
 import org.wowyomad.questionaire.utils.mappers.UserMapper;
 import org.wowyomad.questionaire.utils.patchers.UserPatcher;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 @Service
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
+    private final MailService mailService;
     private final UserPatcher userPatcher;
 
 
@@ -38,38 +37,42 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToDto(user);
     }
 
-    @Override
-    public AuthenticationResponse updateUser(Integer id, UserDto userDto) {
-        User oldUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User not found with id %d", id)));
-
-        User updatedUser = userMapper.mapToEntity(userDto);
-        updatedUser.setId(oldUser.getId());
-        updatedUser.setPassword(oldUser.getPassword());
-
-        updatedUser = userRepository.save(updatedUser);
-        String jwtToken = jwtService.generateToken(updatedUser);
-
-        return new AuthenticationResponse(jwtToken, updatedUser.getId());
-    }
 
     @Override
     public AuthenticationResponse patchUser(Integer id, UserDto patchUserDto)  {
         User userToPatch = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found with id %d", id)));
 
-        User patchUser = userMapper.mapToEntity(patchUserDto);
+        String email = userToPatch.getEmail();
 
+        User patchUser = userMapper.mapToEntity(patchUserDto);
         userPatcher.patch(userToPatch, patchUser);
 
         User patchedUser = userRepository.save(userToPatch);
         String jwtToken = jwtService.generateToken(patchedUser);
 
+
+        if(!patchedUser.getEmail().equals(email)) {
+            String message = String.format("""
+                        <html>
+                        <head></head>
+                        <body>
+                            <h1>Email changed!</h1>
+                            <h2>Your new email: %s</h2>
+                        </body>
+                        </html>
+                        """,
+                    patchedUser.getEmail()
+            );
+            mailService.sendNotifyingMail(email, message);
+        }
+
+
         return new AuthenticationResponse(jwtToken, patchedUser.getId());
     }
 
     @Override
-    public UserDto updatePassword(Integer id, UserPasswordResetDto password) {
+    public AuthenticationResponse updatePassword(Integer id, UserPasswordChangeDto password) {
         User user = userRepository.findById(id).
                 orElseThrow(() ->new UserNotFoundException(String.format("User not found with id %d", id)));
 
@@ -81,8 +84,23 @@ public class UserServiceImpl implements UserService {
         String newPassword = passwordEncoder.encode(password.getNewPassword());
 
         user.setPassword(newPassword);
-        user = userRepository.save(user);
-        return userMapper.mapToDto(user);
+        User savedUser = userRepository.save(user);
+        String jwtToken = jwtService.generateToken(savedUser);
+
+        String message = String.format("""
+                        <html>
+                        <head></head>
+                        <body>
+                            <h1>Successfully changed password!</h1>
+                            <h2>password: %s</h2>
+                        </body>
+                        </html>
+                        """,
+                password.getNewPassword()
+        );
+        mailService.sendNotifyingMail(savedUser.getEmail(), message);
+
+        return new AuthenticationResponse(jwtToken, savedUser.getId());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.wowyomad.questionaire.utils.mappers;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.stereotype.Component;
 import org.wowyomad.questionaire.dto.UserDto;
 import org.wowyomad.questionaire.model.User;
@@ -14,7 +13,7 @@ public class UserMapper {
                 userDto.getEmail(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getPhone(),
+                null,
                 userDto.getPhone(),
                 Role.USER
         );

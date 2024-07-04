@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wowyomad.questionaire.dto.AuthenticationResponse;
 import org.wowyomad.questionaire.dto.UserDto;
-import org.wowyomad.questionaire.dto.UserPasswordResetDto;
+import org.wowyomad.questionaire.dto.UserPasswordChangeDto;
 import org.wowyomad.questionaire.service.UserService;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class    UserController {
         return new ResponseEntity<>(userService.patchUser(id, patchUser), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/reset-password")
-    public ResponseEntity<UserDto> resetPassword(@PathVariable("id") Integer id, @Valid @RequestBody UserPasswordResetDto password) {
+    @PatchMapping("/{id}/reset-password")
+    public ResponseEntity<AuthenticationResponse> resetPassword(@PathVariable("id") Integer id, @Valid @RequestBody UserPasswordChangeDto password) {
         return new ResponseEntity<>(userService.updatePassword(id, password), HttpStatus.OK);
     }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserPasswordResetDto {
+public class UserPasswordChangeDto {
 
     @NotNull
     private String oldPassword;

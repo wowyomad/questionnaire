@@ -11,7 +11,6 @@ import org.wowyomad.questionaire.model.Submission;
 import org.wowyomad.questionaire.repository.QuestionRepository;
 import org.wowyomad.questionaire.repository.SubmissionRepository;
 import org.wowyomad.questionaire.service.SubmissionService;
-import org.wowyomad.questionaire.utils.events.QuestionsUpdatedEvent;
 import org.wowyomad.questionaire.utils.events.SubmissionsUpdatedEvent;
 import org.wowyomad.questionaire.utils.exceptions.SubmissionInvalidException;
 import org.wowyomad.questionaire.utils.exceptions.SubmissionNotFoundException;
@@ -76,7 +75,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         Submission submission = submissionMapper.mapToEntity(submissionDto, questionMap);
         submission = submissionRepository.save(submission);
 
-        eventPublisher.publishEvent(new QuestionsUpdatedEvent(this));
+        eventPublisher.publishEvent(new SubmissionsUpdatedEvent(this));
 
         return submissionMapper.mapToDto(submission);
 
